@@ -1,7 +1,7 @@
-SERVER_URL = "http://boogy.ovh:8080"
+SERVER_URL = "http://localhost:8081"
 BOT_ID = ""
 DEBUG = True
 IDLE_TIME = 120
-REQUEST_INTERVAL = 5
+REQUEST_INTERVAL = 3
 PAUSE_AT_START = 1
 AUTO_PERSIST = False

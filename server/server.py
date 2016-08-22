@@ -7,7 +7,6 @@ import random
 import string
 import hashlib
 
-
 COOKIE_NAME = "ARESSESSID"
 SESSION_TIMEOUT = 300
 UPLOAD_DIR = ""
