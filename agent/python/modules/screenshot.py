@@ -1,4 +1,3 @@
-#from PIL import ImageGrab
 import pyscreenshot as ImageGrab
 import os
 import base64
