@@ -210,6 +210,13 @@ class API(object):
 
     @cherrypy.expose
     @require_admin
+    def delete(self, botid):
+        if not validate_botid(botid):
+            raise cherrypy.HTTPError(403)
+        exec_DB("DELETE FROM bots WHERE name='?'", (html_escape(botid)))
+        
+    @cherrypy.expose
+    @require_admin
     def stdout(self, botid):
         if not validate_botid(botid):
             raise cherrypy.HTTPError(403)

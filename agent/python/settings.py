@@ -1,4 +1,4 @@
-SERVER_URL = "http://localhost:8081"
+SERVER_URL = "http://boogy.ovh:8081"
 BOT_ID = ""
 DEBUG = True
 IDLE_TIME = 120

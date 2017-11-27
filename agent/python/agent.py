@@ -15,9 +15,10 @@ from modules import download
 from modules import upload
 from modules import screenshot
 
-
+#windows:
 #MODULES = ['runcmd', 'persistence', 'download', 'upload', 'screenshot']
-MODULES = ['runcmd', 'persistence', 'download', 'upload', 'screenshot']
+#linux
+MODULES = ['runcmd', 'download', 'upload']
 if not settings.BOT_ID:
     settings.BOT_ID = socket.gethostname()
 if not utils.validate_botid(settings.BOT_ID):

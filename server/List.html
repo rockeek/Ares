@@ -62,6 +62,7 @@
     }
     function deleteBot(botid) {
        // Todo: delete botid
+       $.post("../api/delete", {'botid': $(this).attr('id')});
        alert(botid);
     }
     </script>
